@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string("full_name");
             $table->string("email");
             $table->string("phone_number");
+            $table->unsignedBigInteger("event_id");
+
+            $table->foreign('event_id')->references("id")->on("events")->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
