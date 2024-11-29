@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -55,12 +56,28 @@ class UserController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!$user || !Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('login')->with('error', 'Invalid credentials');
         }
 
-        $request->session()->put('user', $user);
-
         return redirect()->route('index')->with('success', 'Logged in successfully');
+    }
+
+    public function chooseRole(): Factory|View|Application
+    {
+        return view('auth.choose-role');
+    }
+
+    public function chooseRoleUser(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'role' => 'required|in:admin,user',
+        ]);
+
+        $user = $request->session()->get('user');
+        $user->role = $request->role;
+        $user->save();
+
+        return redirect()->route('index')->with('success', 'Role chosen successfully');
     }
 }
