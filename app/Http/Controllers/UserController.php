@@ -45,4 +45,22 @@ class UserController extends Controller
 
         return redirect()->route('login')->with('success', 'User registered successfully');
     }
+
+    public function loginUser(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return redirect()->route('login')->with('error', 'Invalid credentials');
+        }
+
+        $request->session()->put('user', $user);
+
+        return redirect()->route('index')->with('success', 'Logged in successfully');
+    }
 }
