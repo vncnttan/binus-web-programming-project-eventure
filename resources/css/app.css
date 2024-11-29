@@ -6,6 +6,15 @@
     background-color: #FDC201;
 }
 
+.bg-yellow-primary:hover {
+    background-color: #eeaa00;
+}
+
+/*Add this to fix the invalid feedback*/
+.invalid-feedback {
+    display: block !important;
+}
+
 .font-poppins {
     font-family: Poppins, serif;
 }
