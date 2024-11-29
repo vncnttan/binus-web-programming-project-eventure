@@ -11,7 +11,7 @@
         @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css'])
         <!-- !!! THE LINE ABOVE IS REQUIRED SO YOU CAN USE BOOTSTRAP !!! -->
     </head>
-    <body class="bg-gray-signature">
+    <body class="bg-gray-signature font-poppins">
         @yield('content')
     </body>
 </html>

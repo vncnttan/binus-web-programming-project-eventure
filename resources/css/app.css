@@ -5,3 +5,12 @@
 .bg-yellow-primary {
     background-color: #FDC201;
 }
+
+.font-poppins {
+    font-family: Poppins, serif;
+}
+
+@font-face {
+    font-family: Poppins;
+    src: url('/fonts/Poppins/Poppins-Regular.ttf');
+}
