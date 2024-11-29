@@ -23,7 +23,8 @@ return new class extends Migration
             $table->integer('max_per_account');
             $table->boolean('is_online');
             $table->string('location')->nullable();
-            // to do: reference user and category
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
