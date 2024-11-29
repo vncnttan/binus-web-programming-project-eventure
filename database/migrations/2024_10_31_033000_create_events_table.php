@@ -23,8 +23,8 @@ return new class extends Migration
             $table->integer('max_per_account');
             $table->boolean('is_online');
             $table->string('location')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('category_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

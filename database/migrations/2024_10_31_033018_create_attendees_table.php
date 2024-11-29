@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("phone_number");
             $table->unsignedBigInteger("event_id");
 
-            $table->foreign('event_id')->references("id")->on("events")->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('event_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
