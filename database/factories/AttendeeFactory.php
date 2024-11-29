@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Attendee;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\DB;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attendee>
+ * @extends Factory<Attendee>
  */
 class AttendeeFactory extends Factory
 {
@@ -16,8 +18,12 @@ class AttendeeFactory extends Factory
      */
     public function definition(): array
     {
+        $events = DB::table('events')->pluck('id')->toArray();
         return [
-            //
+            'full_name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'phone_number' => fake()->phoneNumber(),
+            'event_id' => $events[array_rand($events)],
         ];
     }
 }
