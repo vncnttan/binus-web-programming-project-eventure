@@ -11,12 +11,18 @@ class Event extends Model
 {
     use HasFactory;
 
-    public function category(): BelongsTo {
+    public function category(): BelongsTo
+    {
         return $this->belongsTo(Category::class);
     }
 
     public function attendees(): HasMany
     {
         return $this->hasMany(Attendee::class);
+    }
+
+    public function organizer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

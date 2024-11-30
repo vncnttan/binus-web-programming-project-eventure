@@ -12,8 +12,13 @@ class EventController extends Controller
     {
         $trendingEvents = Event::withCount('attendees')
             ->orderBy('attendees_count', 'desc')
-            ->take(5)
+            ->take(4)
             ->get();
-        return view('homepage.index', compact('trendingEvents'));
+
+        $recentEvents = Event::withCount('attendees')
+            ->orderBy('created_at', 'desc')
+            ->paginate(8);
+
+        return view('homepage.index', compact('trendingEvents', 'recentEvents'));
     }
 }
