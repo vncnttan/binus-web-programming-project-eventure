@@ -71,10 +71,10 @@ class UserController extends Controller
     public function chooseRoleUser(Request $request): RedirectResponse
     {
         $request->validate([
-            'role' => 'required|in:admin,user',
+            'role' => 'required|in:organizer,participant',
         ]);
 
-        $user = $request->session()->get('user');
+        $user = auth()->user();
         $user->role = $request->role;
         $user->save();
 

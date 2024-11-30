@@ -19,7 +19,8 @@
                 </svg>
             </h1>
             <p style="margin-top: -0.7rem">We’re glad you’re here! What can we help you with?</p>
-            <div class="mt-5 row text-center mx-auto w-75 gap-5 text-black" style="width: fit-content">
+            <form action="{{route("choose-role.user")}}" method="POST" class="mt-5 row text-center mx-auto w-75 gap-5 text-black" style="width: fit-content">
+                @csrf
                 <div class="col p-5 bg-white rounded-3 p-4">
                     <div class="my-4">
                         {!! file_get_contents("storage/Login/find-experience-asset.svg") !!}
@@ -27,7 +28,7 @@
                     <div class="mb-4 ">
                         Find and Experience
                     </div>
-                    <button type="button" class="btn btn-outline-dark mb-4">View Events around you</button>
+                    <button type="submit" name="role" value="participant" class="btn btn-outline-dark mb-4">View Events around you</button>
                 </div>
                 <div class="col p-5 bg-white rounded-3 p-4">
                     <div class="my-4">
@@ -36,9 +37,9 @@
                     <div class="mb-4 ">
                         Organize Events
                     </div>
-                    <button type="button" class="btn btn-outline-dark mb-4">Schedule your events</button>
+                    <button type="submit" name="role" value="organizer" class="btn btn-outline-dark mb-4">Schedule your events</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 @endsection
