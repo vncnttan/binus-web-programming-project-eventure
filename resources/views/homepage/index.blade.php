@@ -9,7 +9,7 @@
                     @foreach($trendingEvents as $te)
                         {{--                        TODO: Componentize this--}}
                         {{--                    TODO: Migration and Seeding for user and company images --}}
-                        <div class="card flex-grow-1 p-3" style="width: 18rem;">
+                        <a class="card flex-grow-1 p-3" style="width: 18rem;" href="{{route('event.show', $te)}}">
                             <img class="card-img-top rounded-2 mb-3" style="height: 12rem;" src="{{$te->banner_image}}"
                                  alt="Card image cap">
                             <h5 class="card-title fw-bold" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap">{{$te->name}}</h5>
@@ -53,7 +53,7 @@
                                     {{$te->organizer->name}}
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
 
@@ -63,7 +63,7 @@
                     @foreach($recentEvents as $re)
                         {{--                        TODO: Componentize this--}}
 
-                        <div class="card flex-grow-1 p-3" style="width: 18rem;">
+                        <a class="card flex-grow-1 p-3" style="width: 18rem;" href="{{route('event.show', $re)}}">
                             <img class="card-img-top rounded-2 mb-3" style="height: 12rem;" src="{{$re->banner_image}}"
                                  alt="Card image cap">
                             <h5 class="card-title fw-bold" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap">{{$re->name}}</h5>
@@ -107,7 +107,7 @@
                                     {{$re->organizer->name}}
                                 </div>
                             </div>
-                        </div>
+                        </a>
 
                     @endforeach
                 </div>

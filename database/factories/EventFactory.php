@@ -23,7 +23,7 @@ class EventFactory extends Factory
         $users = DB::table('users')->pluck('id')->toArray();
 
         $name = $this->eventName();
-        $imageLink = "https://picsum.photos/seed/".$name."/200/300/";
+        $imageLink = "https://picsum.photos/seed/".$name."/1200/800/";
         return [
             'name' => $name,
             'description' => fake()->sentence(),

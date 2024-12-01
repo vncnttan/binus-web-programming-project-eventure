@@ -24,7 +24,7 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
-        $event->load('attendees');
+        $event->load('attendees')->loadCount('attendees');
 
         return view('events.show', compact('event'));
     }
