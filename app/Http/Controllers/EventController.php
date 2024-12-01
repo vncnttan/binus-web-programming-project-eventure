@@ -21,4 +21,11 @@ class EventController extends Controller
 
         return view('homepage.index', compact('trendingEvents', 'recentEvents'));
     }
+
+    public function show(Event $event)
+    {
+        $event->load('attendees');
+
+        return view('events.show', compact('event'));
+    }
 }

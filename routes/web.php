@@ -23,5 +23,6 @@ Route::middleware([Authenticate::class, EnsureRoleNotFilled::class])->group(func
 Route::middleware([Authenticate::class, EnsureRoleValid::class])->group(function () {
     Route::get('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/', [EventController::class, 'index'])->name('index');
+    Route::get('/event/{event}', [EventController::class, 'show'])->name('event.show');
 });
 
