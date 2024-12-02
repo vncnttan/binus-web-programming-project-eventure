@@ -24,5 +24,8 @@ Route::middleware([Authenticate::class, EnsureRoleValid::class])->group(function
     Route::get('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/', [EventController::class, 'index'])->name('index');
     Route::get('/event/{event}', [EventController::class, 'show'])->name('event.show');
+    Route::get('/profile', [ProfileController::class, 'view'])->name('profile.view');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
