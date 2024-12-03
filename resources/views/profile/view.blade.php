@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <div class="text-center mb-4">
                         @if($user->image)
-                        <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Picture" class="rounded-circle img-thumbnail" style="width: 120px; height: 120px;">
+                        <img src="{{ asset($user->image) }}" alt="Profile Picture" class="rounded-circle img-thumbnail" style="width: 120px; height: 120px;">
                         @else
                         <img src="{{ asset($user->image) }}" alt="Profile Picture" class="rounded-circle img-thumbnail" style="width: 120px; height: 120px;">
                         @endif
