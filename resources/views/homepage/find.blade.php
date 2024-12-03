@@ -7,7 +7,7 @@
 @endphp
 
 <div class="container my-4">
-    
+    {{-- <a type="button" class="btn text-white bg-yellow-primary" href="{{route('events.add')}}">+ Add Event</a> --}}
     <h3 class="fw-bold mt-5">{{$text}}</h3>
     <div class="d-flex flex-col gap-5">
         <div class="col-md-3">
