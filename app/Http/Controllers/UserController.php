@@ -24,6 +24,12 @@ class UserController extends Controller
         return view('auth.register');
     }
 
+    public function logout(): RedirectResponse
+    {
+        Auth::logout();
+        return redirect()->route('login')->with('success', 'Logged out successfully');
+    }
+
     public function registerUser(Request $request): RedirectResponse
     {
         $request->validate([

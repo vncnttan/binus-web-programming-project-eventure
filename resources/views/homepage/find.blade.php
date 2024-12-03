@@ -7,7 +7,7 @@
 @endphp
 
 <div class="container my-4">
-    {{-- <a type="button" class="btn text-white bg-yellow-primary" href="{{route('events.add')}}">+ Add Event</a> --}}
+{{--     <a type="button" class="btn text-white bg-yellow-primary" href="{{route('events.add')}}">+ Add Event</a>--}}
     <h3 class="fw-bold mt-5">{{$text}}</h3>
     <div class="d-flex flex-col gap-5">
         <div class="col-md-3">
@@ -18,12 +18,12 @@
                         <option value="date" {{ request('sort') === 'date' ? 'selected' : '' }}>Date</option>
                         <option value="popularity" {{ request('sort') === 'popularity' ? 'selected' : '' }}>Popularity</option>
                     </select>
-                    
+
                     <select class="form-select mb-4" name="ordering">
                         <option value="asc" {{ request('ordering') === 'asc' ? 'selected' : '' }}>Ascending</option>
                         <option value="desc" {{ request('ordering') === 'desc' ? 'selected' : '' }}>Descending</option>
                     </select>
-                
+
                     <h5>Filter</h5>
                     <div class="mb-3">
                         <label for="category" class="form-label">Category</label>
