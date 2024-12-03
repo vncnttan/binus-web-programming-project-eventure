@@ -6,10 +6,10 @@
         <img src="{{asset('storage/General/White Logo.png')}}" class="d-inline-block align-top" alt=""
             style="width: 9rem">
     </a>
-    <form class="ms-4 w-50 position-relative">
+    <form class="ms-4 w-50 position-relative" action="{{ route('find') }}" method="GET">
         {{-- TODO: Search Event Functionality --}}
         <input class="bg-white rounded-pill py-2  px-4 w-100" placeholder="Search Events"
-            style="outline: none" />
+            style="outline: none" name="query" />
         <button type="submit" class="position-absolute top-50 end-0 translate-middle-y rounded-pill text-black"
             style="padding: 0.5rem 1rem; outline: none; border: none; background-color: transparent">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -33,7 +33,7 @@
                 <div class="btn-group">
                     <button class="btn btn-dark btn-sm d-flex align-items-center justify-content-center" type="button">
                         @if(Auth::check() && Auth::user()->image)
-                        <img src="{{ asset('storage/' . Auth::user()->image) }}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                        <img src="{{ asset(Auth::user()->image) }}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
                         @else
                         <img src="https://via.placeholder.com/30" alt="Default Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
                         @endif
