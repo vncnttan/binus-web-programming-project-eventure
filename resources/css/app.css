@@ -10,6 +10,14 @@
     background-color: #eeaa00;
 }
 
+.bg-red-primary {
+    background-color: #aa0000;
+}
+
+.bg-red-primary:hover {
+    background-color: #950101;
+}
+
 /*Add this to fix the invalid feedback*/
 .invalid-feedback {
     display: block !important;
