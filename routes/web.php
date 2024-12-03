@@ -29,6 +29,8 @@ Route::middleware([Authenticate::class, EnsureRoleValid::class])->group(function
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/find-events', [EventController::class, 'find'])->name('find');
     Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
+    Route::get('/events/add', [EventController::class, 'add'])->name('events.add');
     Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
+    Route::post('/events/store', [EventController::class, 'store'])->name('event.store');
 });
 
