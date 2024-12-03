@@ -17,7 +17,9 @@
 .bg-red-primary:hover {
     background-color: #950101;
 }
-
+.alert {
+    margin-bottom: 0;
+}
 /*Add this to fix the invalid feedback*/
 .invalid-feedback {
     display: block !important;
