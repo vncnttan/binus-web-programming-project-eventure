@@ -2,6 +2,8 @@
 
 @section('page-content')
     {{-- to do fix ui --}}
+    <x-join-event-modal :event="$event"/>
+
     <div class="container font-poppins">
         <div class="col py-4">
             <img class="rounded-4 mb-4" style="height: 18rem; object-fit: cover; width: 100%"
@@ -62,7 +64,7 @@
                     <div class="card p-3 gap-3">
                         @if($role === 'attendee')
                             <button type="button" class="btn btn-outline-dark">+ Wishlist</button>
-                            <button type="button" class="bg-yellow-primary btn">Join Event</button>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#join-modal" class="bg-yellow-primary btn">Join Event</button>
                         @elseif($role === 'admin')
                             <button type="button" class="btn btn-outline-dark w-100">View Attendees</button>
 
@@ -81,4 +83,6 @@
             </div>
         </div>
     </div>
+
+    
 @endsection
