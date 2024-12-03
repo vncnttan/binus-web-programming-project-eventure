@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -25,9 +26,15 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
+        $role = "admin";
+        $user = Auth::user();
+        if($user->id === $event->user_id) {
+            $role = "admin";
+        }
+
         $event->load('attendees')->loadCount('attendees');
 
-        return view('events.show', compact('event'));
+        return view('events.show', compact('event', 'role'));
     }
 
     public function find(Request $request)
@@ -65,5 +72,56 @@ class EventController extends Controller
         $categories = Category::all();
 
         return view('homepage.find', compact('events', 'searchQuery', 'categories'));
+    }
+
+    public function edit(Event $event)
+    {
+        $categories = Category::all();
+
+        return view('events.edit', compact('event', 'categories'));
+    }
+
+    public function update(Request $request, Event $event)
+    {
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'category_id' => 'required|exists:categories,id',
+        //     'date' => 'required|date',
+        //     'start_time' => 'required|date_format:H:i',
+        //     'end_time' => 'required|date_format:H:i',
+        //     'quota' => 'required|integer|min:1',
+        //     'max_per_account' => 'required|integer|min:1',
+        //     'is_online' => 'required|boolean',
+        //     'location' => 'nullable|string|max:255',
+        //     'description' => 'nullable|string',
+        //     'banner_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        // ]);
+
+        $photoPath = "";
+
+        if ($request->hasFile('banner_image')) {
+            $photo = $request->file('banner_image');
+            $destinationPath = 'storage';
+            $photoName = time() . '_' . $photo->getClientOriginalName();
+            $photo->move(public_path($destinationPath)."/Event", $photoName);
+            $photoPath = asset($destinationPath) . '/Event/' . $photoName;
+        }
+
+        $event->name = $request->name;
+        $event->category_id = $request->category_id;
+        $event->date = $request->date;
+        $event->start_time = $request->start_time;
+        $event->end_time = $request->end_time;
+        $event->quota = $request->quota;
+        $event->max_per_account = $request->max_per_account;
+        $event->is_online = $request->is_online;
+        $event->location = $request->location;
+        $event->description = $request->description;
+        $event->banner_image = $photoPath;
+
+        $event->save();
+
+        
+        return redirect()->route('event.show', $event)->with('success', 'Event updated successfully.');
     }
 }
