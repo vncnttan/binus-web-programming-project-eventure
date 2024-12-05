@@ -40,8 +40,8 @@ jobs:
     # Build and Push Docker Image
     - name: Build and Push Docker Image
       run: |
-        docker build -t ${{ vars.DOCKER_REGISTRY_LOCATION }}/laravel-app:latest .
-        docker push ${{ vars.DOCKER_REGISTRY_LOCATION }}/laravel-app:latest
+        docker build -t ${{ vars.DOCKER_REGISTRY_LOCATION }}/eventure:latest .
+        docker push ${{ vars.DOCKER_REGISTRY_LOCATION }}/eventure:latest
     
     # Deploy to VPS via SSH
     - name: Deploy to VPS
@@ -55,7 +55,7 @@ jobs:
           cd ~/eventure-docker-laravel
           
           # Pull the latest image
-          docker pull ${{ vars.DOCKER_REGISTRY_LOCATION }}/laravel-app:latest
+          docker pull ${{ vars.DOCKER_REGISTRY_LOCATION }}/eventure:latest
           
           # Create .env file if not exists (IMPORTANT: Manually set these first!)
           if [ ! -f .env ]; then
