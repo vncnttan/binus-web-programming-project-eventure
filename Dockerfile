@@ -1,38 +1,72 @@
-# Use PHP with Apache as the base image
-FROM php:8.2-apache as web
+#Dari ko CP
+FROM php:8.2-apache
 
-# Install Additional System Dependencies
+COPY . /var/www/html
+
 RUN apt-get update && apt-get install -y \
+    curl \
+    g++ \
+    git \
+    libbz2-dev \
+    libfreetype6-dev \
+    libicu-dev \
+    libjpeg-dev \
+    libmcrypt-dev \
+    libpng-dev \
+    libreadline-dev \
     libzip-dev \
-    zip
+    libonig-dev \
+	libsodium-dev \
+    sudo \
+    unzip \
+    zip \
+ && rm -rf /var/lib/apt/lists/*
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+                                                           apt-get install -y nodejs && \
+                                                           npm install -g npm@latest
 
-# Enable Apache mod_rewrite for URL rewriting
-RUN a2enmod rewrite
+RUN apt-get update && apt-get install -y nodejs
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql zip
-
-# Configure Apache DocumentRoot to point to Laravel's public directory
-# and update Apache configuration files
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Copy the application code
-COPY . /var/www/html
-COPY .env /var/www/html/.env
+RUN a2enmod rewrite headers
 
-# Set the working directory
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+RUN sed -ri -e 's!upload_max_filesize = 2M!upload_max_filesize = 50M!g' $PHP_INI_DIR/php.ini
+RUN sed -ri -e 's!post_max_size = 8M!post_max_size = 100M!g' $PHP_INI_DIR/php.ini
+
+RUN docker-php-ext-install \
+    bcmath \
+    bz2 \
+    calendar \
+    iconv \
+    intl \
+    mbstring \
+    opcache \
+    pdo_mysql \
+    zip \
+	sodium
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 WORKDIR /var/www/html
+COPY . .
 
-# Install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN npm install
 
-# Install project dependencies
-RUN composer install
+RUN npm run build
 
-# Set permissions
+RUN composer update && composer install --no-dev --optimize-autoloader
+
+RUN php artisan key:generate
+
+RUN php artisan storage:link
+
+RUN mkdir -p /var/www/html/bootstrap/cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
+
+RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
