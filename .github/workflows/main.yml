@@ -1,0 +1,82 @@
+name: Laravel CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    # Setup PHP
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, xml, ctype, iconv, mysql
+    
+    # Install Composer dependencies
+    - name: Install Composer Dependencies
+      run: composer install --no-dev --optimize-autoloader
+    
+    # Install NPM dependencies
+    - name: Install NPM Dependencies
+      run: npm install && npm run build
+    
+    # Login to Docker Registry
+    - name: Login to Docker Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ vars.DOCKER_REGISTRY_LOCATION }}
+        username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+        password: ${{ secrets.DOCKER_REGISTRY_PASS }}
+    
+    # Build and Push Docker Image
+    - name: Build and Push Docker Image
+      run: |
+        docker build -t ${{ vars.DOCKER_REGISTRY_LOCATION }}/laravel-app:latest .
+        docker push ${{ vars.DOCKER_REGISTRY_LOCATION }}/laravel-app:latest
+    
+    # Deploy to VPS via SSH
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ vars.VPS_IP }}
+        username: ${{ vars.VPS_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          # Navigate to project directory
+          cd ~/eventure-docker-laravel
+          
+          # Pull the latest image
+          docker pull ${{ vars.DOCKER_REGISTRY_LOCATION }}/laravel-app:latest
+          
+          # Create .env file if not exists (IMPORTANT: Manually set these first!)
+          if [ ! -f .env ]; then
+            echo "Creating .env file"
+            echo "APP_ENV=production" >> .env
+            echo "APP_DEBUG=false" >> .env
+            echo "DB_HOST=mysql" >> .env
+            echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
+            echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          fi
+          
+          # Stop existing containers
+          docker-compose down
+          
+          # Start new containers
+          docker-compose up -d
+          
+          # Run migrations
+          docker-compose exec -T app php artisan migrate --force
+          
+          # Clear config cache
+          docker-compose exec -T app php artisan config:clear
+          docker-compose exec -T app php artisan config:cache

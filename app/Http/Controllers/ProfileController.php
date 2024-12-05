@@ -23,31 +23,36 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
-        // Get the authenticated user
         $user = Auth::user();
 
-        // Validate input
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'date_of_birth' => 'nullable|date',
             'phone_number' => 'nullable|string|max:15',
-            'image' => 'nullable|image|max:2048', // Ensure image is valid and under 2MB
+            'image' => 'nullable|image|max:2048',
         ]);
 
-        // Update user data
+        // if ($request->hasFile('image')) {
+        //     // Store new image without deleting the old one
+        //     $user->image = $request->file('image')->store('profile-pictures', 'public');
+        // }
+
+        $photoPath = "";
+
+        if ($request->hasFile('image')) {
+            $photo = $request->file('image');
+            $destinationPath = 'storage';
+            $photoName = time() . '_' . $photo->getClientOriginalName();
+            $photo->move(public_path($destinationPath)."/Profile", $photoName);
+            $photoPath = asset($destinationPath) . '/Profile/' . $photoName;
+        }
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->date_of_birth = $request->date_of_birth;
         $user->phone_number = $request->phone_number;
-
-        // Handle profile picture upload
-        if ($request->hasFile('image')) {
-            // Store new image without deleting the old one
-            $user->image = $request->file('image')->store('profile-pictures', 'public');
-        }
-
-        // Save updated user
+        $user->image = $photoPath;
         $user->save();
 
         // Redirect back with a success message
