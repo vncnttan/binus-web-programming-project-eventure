@@ -52,7 +52,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           # Navigate to project directory
-          cd ~/laravel-app
+          cd ~/eventure-docker-laravel
           
           # Pull the latest image
           docker pull ${{ vars.DOCKER_REGISTRY_LOCATION }}/laravel-app:latest
