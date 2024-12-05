@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
     web:
-        image: eventure:latest
+        image: app-name:latest
         build:
             target: web
             context: .
@@ -15,3 +15,20 @@ services:
         depends_on:
             - db
 
+    db:
+        platform: "linux/amd64"
+        image: mysql:5.7
+        env_file:
+            - .env
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: eventure
+            MYSQL_USER: root
+            MYSQL_PASSWORD:
+        ports:
+            - "3306:3306"
+        volumes:
+            - dbdata:/var/lib/mysql
+
+volumes:
+    dbdata:
