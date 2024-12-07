@@ -51,8 +51,8 @@ jobs:
     - name: Build and Push Docker Image
       run: |
         npm run image
-        docker tag eventure:latest ${{ vars.DOCKER_REGISTRY_LOCATION }}/eventure:latest
-        docker push ${{ vars.DOCKER_REGISTRY_LOCATION }}/eventure:latest
+        docker tag binus-web-programming-project-eventure-php-fpm:latest ${{ vars.DOCKER_REGISTRY_LOCATION }}/binus-web-programming-project-eventure-php-fpm:latest
+        docker push ${{ vars.DOCKER_REGISTRY_LOCATION }}/binus-web-programming-project-eventure-php-fpm:latest
     
     # Deploy to VPS via SSH
     - name: Deploy to VPS
@@ -66,7 +66,7 @@ jobs:
           cd ~/eventure-docker-laravel
           
           # Pull the latest image
-          docker pull ${{ vars.DOCKER_REGISTRY_LOCATION }}/eventure:latest
+          docker pull ${{ vars.DOCKER_REGISTRY_LOCATION }}/binus-web-programming-project-eventure-php-fpm:latest
           
           # Stop existing containers
           docker compose down
