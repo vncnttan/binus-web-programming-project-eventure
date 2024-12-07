@@ -39,8 +39,7 @@ COPY --from=builder /var/www/html /var/www/html
 COPY phpdocker/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Set permissions (optional, adjust as needed)
-RUN chmod -R 755 /var/www/html 
-RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 755 /var/www/html
 
 # Expose port 80
 EXPOSE 80
