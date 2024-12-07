@@ -17,13 +17,9 @@ services:
 
     php-fpm:
         container_name: eventure-phpdocker-php-fpm
-        build:
-            context: ./phpdocker/php-fpm
-            tags:
-                - registry.vncnttan.my.id/binus-web-programming-project-eventure-php-fpm:latest
+        build: ./
         working_dir: /var/www/html
         volumes:
-            - '.:/var/www/html'
             - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.2/fpm/conf.d/99-overrides.ini'
             - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.2/cli/conf.d/99-overrides.ini'
         networks:
