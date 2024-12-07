@@ -36,8 +36,6 @@ jobs:
     - name: Build and Push Docker Image
       run: |
         npm run image
-        docker tag binus-web-programming-project-eventure-php-fpm:latest ${{ vars.DOCKER_REGISTRY_LOCATION }}/binus-web-programming-project-eventure-php-fpm:latest
-        docker tag binus-web-programming-project-eventure-webserver:latest ${{ vars.DOCKER_REGISTRY_LOCATION }}/binus-web-programming-project-eventure-webserver:latest
         docker push ${{ vars.DOCKER_REGISTRY_LOCATION }}/binus-web-programming-project-eventure-php-fpm:latest
         docker push ${{ vars.DOCKER_REGISTRY_LOCATION }}/binus-web-programming-project-eventure-webserver:latest
 
