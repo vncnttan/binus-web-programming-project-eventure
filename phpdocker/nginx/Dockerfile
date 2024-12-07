@@ -1,6 +1,3 @@
-# Use the nginx alpine image as the base image
-FROM nginx:alpine AS base
-
 # Install PHP, Composer, and required build tools
 FROM php:8.2-fpm-alpine AS builder
 
@@ -17,6 +14,7 @@ RUN apk add --no-cache \
     zip \
     intl
 
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -29,8 +27,17 @@ COPY . .
 # Run composer install
 RUN composer install --no-dev --optimize-autoloader
 
+# Generate autoloader and clear/cache Laravel configurations
+RUN composer dump-autoload --no-dev --optimize \
+    && php artisan config:clear \
+    && php artisan view:clear \
+    && php artisan route:clear \
+    && php artisan optimize
+
 # Use nginx-alpine as the final stage
 FROM nginx:alpine AS final
+
+WORKDIR /var/www/html
 
 # Copy the application from the builder stage
 COPY --from=builder /var/www/html /var/www/html
@@ -41,5 +48,10 @@ COPY phpdocker/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 # Set permissions (optional, adjust as needed)
 RUN chmod -R 755 /var/www/html
 
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+
 # Expose port 80
 EXPOSE 80
+
+# Default command
+CMD ["nginx", "-g", "daemon off;"]
