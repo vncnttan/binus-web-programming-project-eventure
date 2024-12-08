@@ -7,5 +7,14 @@ export default defineConfig({
             input: ['resources/sass/app.scss', 'resources/js/app.js'],
             refresh: true,
         }),
-    ]
+    ],
+    build: {
+        outDir: 'public/build',
+        manifest: true,
+        rollupOptions: {
+            input: {
+                'app': './resources/css/app.css',
+            },
+        },
+    }
 });
