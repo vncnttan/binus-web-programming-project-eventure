@@ -7,7 +7,7 @@
     "routes": [
         { "src": "/build/(.*)", "dest": "/public/build/" },
         { "src": "/(.*)", "dest": "/api/index.php" },
-        {"src":  "resources/(.*)", "dest": "/public/resources/$1"}
+        { "src":  "/img/(.*)", "dest":  "public/img/"}
     ],
     "public": true,
     "buildCommand": "vite build",
