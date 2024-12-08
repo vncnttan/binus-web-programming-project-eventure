@@ -13,7 +13,7 @@
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",
-        "APP_DEBUG": "false",
+        "APP_DEBUG": "true",
         "APP_URL": "https://binus-web-programming-project-eventure-n4b71n7lj.vercel.app/",
         "APP_KEY": "base64:WLXoJhJu1Lf4jXH53ikoQqXyMipfQ5OXok1IwHF2lK8=",
         "APP_CONFIG_CACHE": "/tmp/config.php",
