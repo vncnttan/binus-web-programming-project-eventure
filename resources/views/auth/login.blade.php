@@ -6,7 +6,7 @@
              alt="Loading Login Background" style="padding: 0 20%; z-index: -10"/>
 
         <div class="container h-100">
-            <img src="{{\Illuminate\Support\Facades\Storage::url("storage/General/Black Logo.png")}}" alt="Eventure Logo" class="img-fluid d-block"
+            <img src="{{asset("storage/General/Black Logo.png")}}" alt="Eventure Logo" class="img-fluid d-block"
                  style="width: 200px; margin-top: 2rem;"/>
             <div class="mt-5 row text-center bg-white mx-auto w-50 p-4 rounded-3 text-black" style="width: fit-content">
                 <div class="col-12 p-5">
