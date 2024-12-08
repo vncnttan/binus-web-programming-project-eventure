@@ -5,12 +5,12 @@
         "api/index.php": { "runtime": "vercel-php@0.6.0" }
     },
     "routes": [
-        {"src": "/storage/(.*)", "dest": "/public/storage/$1"},
+        {"src": "/storage/(.*)", "dest": "/storage/$1"},
         { "src": "/build/(.*)", "dest": "/public/build/" },
         { "src": "/(.*)", "dest": "/api/index.php" }
     ],
     "public": true,
-    "buildCommand": "./vendor/bin/php artisan storage:link && vite build",
+    "buildCommand": "vite build",
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",
@@ -32,5 +32,6 @@
         "DB_PORT": "3306",
         "DB_DATABASE": "eventure_yearsunday",
         "DB_USERNAME": "eventure_yearsunday"
-    }
+    },
+
 }
