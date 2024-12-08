@@ -104,17 +104,18 @@ class EventController extends Controller
         //     'description' => 'nullable|string',
         //     'banner_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         // ]);
-    
+
         $photoPath = null;
         $user = Auth::user();
         if ($request->hasFile('banner_image')) {
+//            TODO: Save image to the public folder
             $photo = $request->file('banner_image');
             $destinationPath = 'storage';
             $photoName = time() . '_' . $photo->getClientOriginalName();
             $photo->move(public_path($destinationPath) . "/Event", $photoName);
             $photoPath = asset($destinationPath) . '/Event/' . $photoName;
         }
-    
+
         $event = new Event();
         $event->name = $request->name;
         $event->category_id = $request->category_id;
@@ -128,9 +129,9 @@ class EventController extends Controller
         $event->location = $request->location;
         $event->description = $request->description;
         $event->banner_image = $photoPath;
-    
+
         $user->events()->save($event);
-    
+
         return redirect()->route('index')->with('success', 'Event created successfully.');
     }
 
@@ -174,7 +175,7 @@ class EventController extends Controller
 
         $event->save();
 
-        
+
         return redirect()->route('event.show', $event)->with('success', 'Event updated successfully.');
     }
 }
