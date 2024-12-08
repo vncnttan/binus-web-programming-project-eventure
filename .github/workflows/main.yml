@@ -37,7 +37,6 @@ jobs:
       run: |
         npm run image
         docker push ${{ vars.DOCKER_REGISTRY_LOCATION }}/binus-web-programming-project-eventure-php-fpm:latest
-        docker push ${{ vars.DOCKER_REGISTRY_LOCATION }}/binus-web-programming-project-eventure-webserver:latest
 
     # Deploy to VPS via SSH
     - name: Deploy to VPS
@@ -52,16 +51,18 @@ jobs:
 
           # Pull the latest image
           docker pull ${{ vars.DOCKER_REGISTRY_LOCATION }}/binus-web-programming-project-eventure-php-fpm:latest
-          docker pull ${{ vars.DOCKER_REGISTRY_LOCATION }}/binus-web-programming-project-eventure-webserver:latest
 
           # Stop existing containers
           docker compose down
+
+          # Pull from github
+          git pull origin main
 
           # Start new containers
           docker compose up -d
 
           # Run migrations
-          # docker compose exec -T app php artisan migrate --force
+          docker compose exec -T app php artisan migrate --force
 
           # Clear config cache
           # docker compose exec -T app php artisan config:clear
