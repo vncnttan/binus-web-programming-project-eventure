@@ -10,7 +10,7 @@
         { "src": "/(.*)", "dest": "/api/index.php" }
     ],
     "public": true,
-    "buildCommand": "vite build && mkdir -p public/storage && php artisan storage:link",
+    "buildCommand": "./vendor/bin/php artisan storage:link && vite build",
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",
