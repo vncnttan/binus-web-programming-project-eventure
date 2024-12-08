@@ -16,6 +16,7 @@ services:
             - internal
 
     php-fpm:
+        image: registry.vncnttan.my.id/eventure-php-fpm
         container_name: eventure-phpdocker-php-fpm
         build: phpdocker/php-fpm
         working_dir: /var/www/html
