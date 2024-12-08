@@ -32,6 +32,5 @@
         "DB_PORT": "3306",
         "DB_DATABASE": "eventure_yearsunday",
         "DB_USERNAME": "eventure_yearsunday"
-    },
-
+    }
 }
