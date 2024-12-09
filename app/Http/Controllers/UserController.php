@@ -34,7 +34,7 @@ class UserController extends Controller
     public function registerUser(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
             'username' => 'required|string|min:4|max:20',
             'date_of_birth' => 'required|date',
