@@ -16,7 +16,8 @@ class UserController extends Controller
 {
     public function login(): Factory|View|Application
     {
-        return view('auth.login');
+        $users = User::all();
+        return view('auth.login', compact("users"));
     }
 
     public function register(): Factory|View|Application

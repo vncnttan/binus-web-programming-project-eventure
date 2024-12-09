@@ -5,6 +5,7 @@
         <img class="img-fluid align-content-center position-fixed top-0 start-50 translate-middle-x " src="{{asset("storage/Login/bg.png")}}"
              alt="Loading Login Background" style="padding: 0 20%; z-index: -10"/>
 
+        {{ $users }}
         <div class="container h-100">
             <img src="{{asset("storage/General/Black Logo.png")}}" alt="Eventure Logo" class="img-fluid d-block"
                  style="width: 200px; margin-top: 2rem;"/>
