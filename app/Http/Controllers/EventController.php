@@ -113,12 +113,12 @@ class EventController extends Controller
             $photo = $request->file('banner_image');
             $destinationPath = 'storage';
             $photoName = time() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path($destinationPath) . "/Event", $photoName);
+//            $photo->move(pugblic_path($destinationPath) . "/Event", $photoName);
             $photoPath = storage_asset('/Event/' . $photoName);
-//            if(!Storage::disk('public_uploads')->put(public_path($destinationPath) . "/Event", $photo)) {
-//                dd("Failed to upload image");
-//                return false;
-//            }
+            if(!Storage::disk('s3')->put("images", $photo)) {
+                dd("Failed to upload image");
+                return false;
+            }
         }
 
         $event = new Event();
