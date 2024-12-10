@@ -23,7 +23,7 @@
                 @csrf
                 <div class="col p-5 bg-white rounded-3 p-4">
                     <div class="my-4">
-                        {!! storage_asset("/Login/find-experience-asset.svg") !!}
+                        {!! file_get_contents(storage_asset("/Login/find-experience-asset.svg")) !!}
                     </div>
                     <div class="mb-4 ">
                         Find and Experience
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col p-5 bg-white rounded-3 p-4">
                     <div class="my-4">
-                        {!! storage_asset("storage/Login/organize-events-asset.svg") !!}
+                        {!! file_get_contents(storage_asset("/Login/organize-events-asset.svg")) !!}
                     </div>
                     <div class="mb-4 ">
                         Organize Events
