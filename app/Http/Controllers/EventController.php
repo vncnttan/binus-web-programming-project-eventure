@@ -109,16 +109,9 @@ class EventController extends Controller
         $photoPath = null;
         $user = Auth::user();
         if ($request->hasFile('banner_image')) {
-//            TODO: Save image to the public folder
             $photo = $request->file('banner_image');
-            $destinationPath = 'storage';
-            $photoName = time() . '_' . $photo->getClientOriginalName();
-//            $photo->move(pugblic_path($destinationPath) . "/Event", $photoName);
-            $photoPath = storage_asset('/Event/' . $photoName);
-            if(!Storage::disk('s3')->put("images", $photo)) {
-                dd("Failed to upload image");
-                return false;
-            }
+            $path = Storage::disk('s3')->put("images", $photo);
+            $photoPath = Storage::disk('s3')->url($path);
         }
 
         $event = new Event();
