@@ -45,7 +45,7 @@ class ProfileController extends Controller
             $destinationPath = 'storage';
             $photoName = time() . '_' . $photo->getClientOriginalName();
             $photo->move(public_path($destinationPath)."/Profile", $photoName);
-            $photoPath = asset($destinationPath) . '/Profile/' . $photoName;
+            $photoPath = storage_asset('/Profile/' . $photoName) ;
         }
 
         $user->name = $request->name;
