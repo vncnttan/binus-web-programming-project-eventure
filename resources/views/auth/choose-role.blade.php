@@ -3,11 +3,11 @@
 @section("content")
     <div class="w-100 text-center position-relative">
         <img class="img-fluid align-content-center w-100 position-fixed start-50 translate-middle-x"
-             src="{{asset("storage/Login/choose-role-bg.png")}}"
+             src="{{storage_asset("/Login/choose-role-bg.png")}}"
              alt="Loading Login Background" style="z-index: -10; bottom: -24%"/>
 
         <div class="container h-100">
-            <img src="{{asset("storage/General/Black Logo.png")}}" alt="Eventure Logo" class="img-fluid d-block"
+            <img src="{{storage_asset("/General/Black Logo.png")}}" alt="Eventure Logo" class="img-fluid d-block"
                  style="width: 200px; margin-top: 2rem;"/>
             <h1 class="fw-bold mt-5">
                 Welcome to Eventure!

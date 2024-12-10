@@ -113,7 +113,7 @@ class EventController extends Controller
             $destinationPath = 'storage';
             $photoName = time() . '_' . $photo->getClientOriginalName();
             $photo->move(public_path($destinationPath) . "/Event", $photoName);
-            $photoPath = asset($destinationPath) . '/Event/' . $photoName;
+            $photoPath = storage_asset('/Event/' . $photoName) ;
         }
 
         $event = new Event();
@@ -158,7 +158,7 @@ class EventController extends Controller
             $destinationPath = 'storage';
             $photoName = time() . '_' . $photo->getClientOriginalName();
             $photo->move(public_path($destinationPath)."/Event", $photoName);
-            $photoPath = asset($destinationPath) . '/Event/' . $photoName;
+            $photoPath = storage_asset('/Event/' . $photoName) ;
         }
 
         $event->name = $request->name;

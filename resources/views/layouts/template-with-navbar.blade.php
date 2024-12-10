@@ -3,7 +3,7 @@
 @section('content')
     <nav class="navbar navbar-dark bg-dark navbar-expand-lg px-5 py-3">
         <a class="navbar-brand" href="/">
-            <img src="{{asset('storage/General/White Logo.png')}}" class="d-inline-block align-top" alt=""
+            <img src="{{storage_asset('/General/White Logo.png')}}" class="d-inline-block align-top" alt=""
                  style="width: 9rem">
         </a>
         <form class="ms-4 w-50 position-relative" action="{{ route('find') }}" method="GET">
