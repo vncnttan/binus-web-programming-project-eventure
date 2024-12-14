@@ -15,7 +15,7 @@
                         @csrf
                         <div>
                             <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
                         </div>
                         @error('email')
                         <div class="invalid-feedback">
@@ -25,7 +25,7 @@
 
                         <div class="mt-3">
                             <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username">
+                            <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" value="{{ old('username') }}">
                         </div>
                         @error('username')
                         <div class="invalid-feedback">
@@ -35,7 +35,7 @@
 
                         <div class="mt-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ old('password') }}">
                         </div>
                         @error('password')
                         <div class="invalid-feedback">
@@ -45,7 +45,7 @@
 
                         <div class="mt-3">
                             <label for="phone_number" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number">
+                            <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" value="{{ old('phone_number') }}">
                         </div>
                         @error('phone_number')
                         <div class="invalid-feedback">
@@ -55,7 +55,7 @@
 
                         <div class="mt-3">
                             <label for="date_of_birth" class="form-label">Date of Birth</label>
-                            <input type="date" class="form-control @error('date_of_birth') is-invalid @enderror" id="date_of_birth" name="date_of_birth">
+                            <input type="date" class="form-control @error('date_of_birth') is-invalid @enderror" id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth') }}">
                         </div>
                         @error('date_of_birth')
                         <div class="invalid-feedback">
@@ -65,7 +65,7 @@
 
                         <button type="submit" class="btn bg-yellow-primary w-100 mt-4">Register</button>
                         <div class="my-3">
-                            Already have an account? <a href="{{ route('login') }}" class="text-decoration-none">Login here</a>
+                            Already have an account? <a href="{{ route('login') }}" class="text-primary">Login here</a>
                         </div>
                     </form>
 

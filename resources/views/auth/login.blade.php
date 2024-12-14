@@ -17,7 +17,7 @@
 
                         <div>
                             <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
                         </div>
                         @error('email')
                         <div class="invalid-feedback">
@@ -27,7 +27,7 @@
 
                         <div class="mt-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ old('password') }}">
                         </div>
                         @error('password')
                         <div class="invalid-feedback">
@@ -38,7 +38,7 @@
                         <button type="submit" class="mt-5 btn bg-yellow-primary w-100">Login</button>
 
                         <div class="mt-3">
-                            Don't have an account? <a href="{{ route('register') }}" class="text-decoration-none">Register here</a>
+                            Don't have an account? <a href="{{ route('register') }}" class="text-primary">Register here</a>
                         </div>
                     </form>
                 </div>
