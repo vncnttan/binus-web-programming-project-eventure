@@ -29,7 +29,7 @@
         "LOG_LEVEL": "debug",
         "SESSION_DRIVER": "cookie",
         "DB_CONNECTION": "mysql",
-        "DB_HOST": "yh2wz.h.filess.io",
+        "DB_HOST": "f7c6p.h.filess.io",
         "DB_PORT": "3306",
         "DB_DATABASE": "eventure_yearsunday",
         "DB_USERNAME": "eventure_yearsunday"
