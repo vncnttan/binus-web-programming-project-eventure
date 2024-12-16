@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Attendee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
-    //
     public function index()
     {
         $trendingEvents = Event::withCount('attendees')
@@ -39,10 +39,35 @@ class EventController extends Controller
         return view('events.show', compact('event', 'role'));
     }
 
+    public function join(Request $request) {
+        $request->validate([
+            'attendees' => 'required|array|min:1',
+            'attendees.*.name' => 'required|string|max:255',
+            'attendees.*.email' => 'required|email|max:255',
+            'attendees.*.phone' => 'required|string|max:15',
+        ]);
+
+        try {
+            foreach ($request->attendees as $attendee) {
+                Attendee::create([
+                    'full_name' => $attendee['full_name'],
+                    'email' => $attendee['email'],
+                    'phone_number' => $attendee['phone_number'],
+                    'event_id' => $request->event_id,
+                ]);
+            }
+            return redirect()->route('events.index')
+                ->with('success', 'Attendees have been successfully added.');
+                
+        } catch (Exception $e) {
+            return back()->with('error', 'Something went wrong while adding attendees. Please try again.')
+                ->withInput();
+        }
+    }
+
     public function find(Request $request)
     {
         $searchQuery = $request->input('query', '');
-
         $events = Event::withCount('attendees');
 
         if (!empty($searchQuery)) {

@@ -33,5 +33,6 @@ Route::middleware([Authenticate::class, EnsureRoleValid::class])->group(function
     Route::get('/events/add', [EventController::class, 'add'])->name('events.add');
     Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
     Route::post('/events/store', [EventController::class, 'store'])->name('event.store');
+    Route::post('/events/join', [EventController::class, 'join'])->name('event.join');
 });
 

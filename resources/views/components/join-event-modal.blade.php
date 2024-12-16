@@ -47,60 +47,70 @@
             </div>
             </div>
 
-            <div class="modal-body d-flex flex-column gap-3">
-                <select id="num_of_attendees" class="form-select" aria-label="Default select example">
-                    <option selected disabled value="">Select number of attendees</option>
-                    @for ($i = 1; $i <= $event->max_per_account; $i++)
-                        <option value="{{$i}}">{{$i}}</option>
-                    @endfor
-                </select>
+            <form action="{{ route('event.join') }}" method="POST">
+                @csrf
+                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                <div class="modal-body d-flex flex-column gap-3">
+                    <select id="num_of_attendees" class="form-select" aria-label="Default select example">
+                        <option selected disabled value="">Select number of attendees</option>
+                        @for ($i = 1; $i <= $event->max_per_account; $i++)
+                            <option value="{{$i}}">{{$i}}</option>
+                        @endfor
+                    </select>
 
-                <label id="attendees-container-label" class="fw-semibold d-none">Attendees List</label>
-                <div id="attendees-container" class="d-flex flex-column gap-2">
-                    
-                </div>                   
-            </div>
+                    <label id="attendees-container-label" class="fw-semibold d-none">Attendees List</label>
+                    <div id="attendees-container" class="d-flex flex-column gap-2">
 
-            <div class="modal-footer d-flex justify-content-center align-items-center gap-2">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn bg-yellow-primary">Save</button>
-            </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer d-flex justify-content-center align-items-center gap-2">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn bg-yellow-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
     document.getElementById('num_of_attendees').addEventListener('change', () => {
-        const num_of_attendees = document.getElementById('num_of_attendees').value;
+        let num_of_attendees = document.getElementById('num_of_attendees');
         const attendees_container = document.getElementById('attendees-container');
-        const attendees_container_label = document.getElementById('attendees-container-label')
+        const attendees_container_label = document.getElementById('attendees-container-label');
         attendees_container_label.classList.remove('d-none');
         attendees_container.innerHTML = '';
 
-        const div = document.createElement('div');
-        div.classList.add('d-flex', 'gap-2');
-        div.innerHTML = `
-            <input disabled type="text" class="form-control" placeholder="Full name" aria-label="Full name" aria-describedby="basic-addon1">
-            <input disabled type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
-            <input disabled type="text" class="form-control" placeholder="Phone number" aria-label="Phone number" aria-describedby="basic-addon1">
-            <button type="button" class="btn">
-                <i class="fas fa-trash text-black"></i>
-            </button>
-        `;
-        attendees_container.appendChild(div);
+        const loggedInUser = {
+            name: '{{ auth()->user()->name }}',
+            email: '{{ auth()->user()->email }}',
+            phone: '{{ auth()->user()->phone_number }}'
+        };
 
-        for (let i = 2; i <= num_of_attendees; i++) {
-            const div = document.createElement('div');
-            div.classList.add('d-flex', 'gap-2');
-            div.innerHTML = `
-                <input type="text" class="form-control" placeholder="Full name" aria-label="Full name" aria-describedby="basic-addon1">
-                <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
-                <input type="text" class="form-control" placeholder="Phone number" aria-label="Phone number" aria-describedby="basic-addon1">
-                <button type="button" class="btn">
-                    <i class="fas fa-trash text-black"></i>
-                </button>
-            `;
-            attendees_container.appendChild(div);
+        const createAttendeeInput = (idx, name, email, phone, disabled = false) => {
+            return `
+                <div class="d-flex gap-2 align-items-center">
+                    <input type="text" name="attendees[${idx}][full_name]" value="${name}" class="form-control" placeholder="Full name" required ${disabled ? 'disabled' : ''}>
+                    <input type="email" name="attendees[${idx}][email]" value="${email}" class="form-control" placeholder="Email" required ${disabled ? 'disabled' : ''}>
+                    <input type="text" name="attendees[${idx}][phone_number]" value="${phone}" class="form-control" placeholder="Phone number" required ${disabled ? 'disabled' : ''}>
+                    <button type="button" class="btn ${disabled ? '' : 'remove-attendee'}"><i class="fas fa-trash ${disabled ? 'text-muted' : 'text-black'}"></i></button>
+                    ${disabled ? `<input type="hidden" name="attendees[${idx}][name]" value="${name}">` : ''}
+                    ${disabled ? `<input type="hidden" name="attendees[${idx}][email]" value="${email}">` : ''}
+                    ${disabled ? `<input type="hidden" name="attendees[${idx}][phone]" value="${phone}">` : ''}
+                </div>`;
+        };
+
+        attendees_container.innerHTML += createAttendeeInput(0, loggedInUser.name, loggedInUser.email, loggedInUser.phone, true);
+
+        for (let i = 1; i < parseInt(num_of_attendees.value); i++) {
+            attendees_container.innerHTML += createAttendeeInput(i, '', '', '');
         }
-    })
+
+        document.querySelectorAll('.remove-attendee').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                num_of_attendees.value = parseInt(num_of_attendees.value - 1)
+                e.target.closest('div').remove();
+            });
+        });
+    });
 </script>
