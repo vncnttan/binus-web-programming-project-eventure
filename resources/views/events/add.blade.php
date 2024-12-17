@@ -60,7 +60,7 @@
                                value="{{ old('start_time') }}" required>
                     </div>
                     @error('start_time')
-
+                        <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
 
                     <div class="form-group mb-3">
@@ -102,7 +102,7 @@
 
             <div class="form-group mb-3">
                 <label for="description">Event Details</label>
-                <textarea id="description" name="description" class="form-control" rows="10" placeholder="Event details...">
+                <textarea id="description" name="description" class="form-control" rows="10" placeholder="Event details..." > </textarea>
             </div>
 
             <div class="d-flex justify-content-end gap-2">
@@ -124,7 +124,7 @@
             reader.readAsDataURL(file);
         }
     });
-    
+
 </script>
 @endsection
 
