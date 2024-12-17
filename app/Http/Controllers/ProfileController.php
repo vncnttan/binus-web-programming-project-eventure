@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\Attendee;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -41,24 +42,17 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'date_of_birth' => 'nullable|date',
-            'phone_number' => 'nullable|string|max:15',
+            'date_of_birth' => 'required|date',
+            'phone_number' => 'required|string|max:15',
             'image' => 'nullable|image|max:2048',
         ]);
-
-        // if ($request->hasFile('image')) {
-        //     // Store new image without deleting the old one
-        //     $user->image = $request->file('image')->store('profile-pictures', 'public');
-        // }
-
-        $photoPath = "";
-
-        if ($request->hasFile('image')) {
-            $photo = $request->file('image');
-            $destinationPath = 'storage';
-            $photoName = time() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path($destinationPath)."/Profile", $photoName);
-            $photoPath = storage_asset('/Profile/' . $photoName) ;
+        
+        $user = Auth::user();
+        $photoPath = $user->image;
+        if ($request->hasFile('profile_image')) {
+            $photo = $request->file('profile_image');
+            $path = Storage::disk('s3')->put("images", $photo);
+            $photoPath = Storage::disk('s3')->url($path);
         }
 
         $user->name = $request->name;
@@ -68,7 +62,6 @@ class ProfileController extends Controller
         $user->image = $photoPath;
         $user->save();
 
-        // Redirect back with a success message
         return redirect()->route('profile.view')->with('success', 'Profile updated successfully!');
     }
 }
