@@ -135,6 +135,7 @@ class EventController extends Controller
 
     public function update(Request $request, Event $event)
     {
+        // dd($request);
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',

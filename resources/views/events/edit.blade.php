@@ -11,6 +11,11 @@
                 <input type="file" name="banner_image" id="banner_image"
                        class="form-control position-absolute top-50 start-50 translate-middle opacity-0"
                        accept="image/*" >
+                @error('banner_image')
+                    <div class="invalid-feedback">
+                    {{ $message }}
+                    </div>
+                @enderror
                 <img class="rounded-4 mb-4 w-100" style="height: 18rem; object-fit: cover;"
                      src="{{ $event->banner_image }}" alt="Event banner" id="event-image">
                 <svg class="position-absolute top-50 start-50 translate-middle overlay-icon"
@@ -26,6 +31,11 @@
                         <label for="event_name">Event Name</label>
                         <input type="text" id="event_name" name="name" class="form-control"
                                value="{{ $event->name }}" placeholder="Event name" required>
+                        @error('event_name')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-3">
@@ -37,23 +47,43 @@
                                 </option>
                             @endforeach
                         </select>
+                        @error('category_id')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="date">Date</label>
                         <input type="date" id="date" name="date" class="form-control" value="{{ $event->date }}" required>
+                        @error('date')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="start_time">Start Time</label>
                         <input type="time" id="start_time" name="start_time" class="form-control"
-                               value="{{ $event->start_time }}" required>
+                               value="{{ date('H:i', strtotime($event->start_time)) }}" required>
+                        @error('start_time')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="end_time">End Time</label>
                         <input type="time" id="end_time" name="end_time" class="form-control"
-                               value="{{ $event->end_time }}" required>
+                               value="{{ date('H:i', strtotime($event->end_time)) }}" required>
+                        @error('end_time')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
                 </div>
 
@@ -62,12 +92,22 @@
                         <label for="quota">Quota</label>
                         <input type="number" id="quota" name="quota" class="form-control"
                                value="{{ $event->quota }}" placeholder="Quota" required>
+                        @error('quota')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="max_per_account">Max Per Account</label>
                         <input type="number" id="max_per_account" name="max_per_account" class="form-control"
                                value="{{ $event->max_per_account }}" placeholder="Max. per account" required>
+                        @error('max_per_account')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-3">
@@ -76,12 +116,22 @@
                             <option value="1" {{ $event->is_online ? 'selected' : '' }}>Online</option>
                             <option value="0" {{ !$event->is_online ? 'selected' : '' }}>Onsite</option>
                         </select>
+                        @error('is_online')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="location">Location</label>
                         <input type="text" id="location" name="location" class="form-control"
                                value="{{ $event->location }}" placeholder="Location" required>
+                        @error('location')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                     </div>
                 </div>
 
@@ -90,6 +140,11 @@
             <div class="form-group mb-3">
                 <label for="description">Event Details</label>
                 <textarea id="description" name="description" class="form-control" rows="10" placeholder="Event details...">{{ $event->description }}</textarea>
+                @error('description')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
             </div>
 
             <div class="d-flex justify-content-end gap-2">
