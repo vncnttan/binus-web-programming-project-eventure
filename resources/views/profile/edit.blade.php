@@ -40,7 +40,7 @@
                                 <tr>
                                     <th scope="row"><label for="image" class="form-label">Profile Picture</label></th>
                                     <td>
-                                        <input type="file" name="image" id="image" class="form-control">
+                                        <input type="file" name="profile_image" id="profile_image" class="form-control" accept="image/*" >
                                         @if($user->image)
                                             <small class="text-muted">Current Image: {{ $user->image }}</small>
                                         @endif

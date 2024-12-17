@@ -10,7 +10,7 @@
             <div class="text-center position-relative">
                 <input type="file" name="banner_image" id="banner_image"
                        class="form-control position-absolute top-50 start-50 translate-middle opacity-0"
-                       accept="image/*" required>
+                       accept="image/*" >
                 <img class="rounded-4 mb-4 w-100" style="height: 18rem; object-fit: cover;"
                      src="{{ $event->banner_image }}" alt="Event banner" id="event-image">
                 <svg class="position-absolute top-50 start-50 translate-middle overlay-icon"

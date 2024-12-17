@@ -92,19 +92,19 @@ class EventController extends Controller
 
     public function store(Request $request, User $user)
     {
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'category_id' => 'required|exists:categories,id',
-        //     'date' => 'required|date',
-        //     'start_time' => 'required|date_format:H:i',
-        //     'end_time' => 'required|date_format:H:i',
-        //     'quota' => 'required|integer|min:1',
-        //     'max_per_account' => 'required|integer|min:1',
-        //     'is_online' => 'required|boolean',
-        //     'location' => 'nullable|string|max:255',
-        //     'description' => 'nullable|string',
-        //     'banner_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-        // ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'date' => 'required|date',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i',
+            'quota' => 'required|integer|min:1',
+            'max_per_account' => 'required|integer|min:1',
+            'is_online' => 'required|boolean',
+            'location' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'banner_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        ]);
 
         $photoPath = null;
         $user = Auth::user();
@@ -135,28 +135,26 @@ class EventController extends Controller
 
     public function update(Request $request, Event $event)
     {
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'category_id' => 'required|exists:categories,id',
-        //     'date' => 'required|date',
-        //     'start_time' => 'required|date_format:H:i',
-        //     'end_time' => 'required|date_format:H:i',
-        //     'quota' => 'required|integer|min:1',
-        //     'max_per_account' => 'required|integer|min:1',
-        //     'is_online' => 'required|boolean',
-        //     'location' => 'nullable|string|max:255',
-        //     'description' => 'nullable|string',
-        //     'banner_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-        // ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'date' => 'required|date',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i',
+            'quota' => 'required|integer|min:1',
+            'max_per_account' => 'required|integer|min:1',
+            'is_online' => 'required|boolean',
+            'location' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'banner_image' => 'nullable|image|mimes:jpg,png,jpeg|max:10240',
+        ]);
 
-        $photoPath = "";
-
+        $photoPath = $event->banner_image;
+        $user = Auth::user();
         if ($request->hasFile('banner_image')) {
             $photo = $request->file('banner_image');
-            $destinationPath = 'storage';
-            $photoName = time() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path($destinationPath)."/Event", $photoName);
-            $photoPath = storage_asset('/Event/' . $photoName) ;
+            $path = Storage::disk('s3')->put("images", $photo);
+            $photoPath = Storage::disk('s3')->url($path);
         }
 
         $event->name = $request->name;
