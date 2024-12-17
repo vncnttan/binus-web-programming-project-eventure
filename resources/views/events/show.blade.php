@@ -63,16 +63,17 @@
                 <div class="col-md-3">
                     <div class="card p-3 gap-3">
                         @if($role === 'attendee')
-                            <button type="button" class="btn btn-outline-dark">+ Wishlist</button>
+                            {{-- <button type="button" class="btn btn-outline-dark">+ Wishlist</button> --}}
                             <button type="button" data-bs-toggle="modal" data-bs-target="#join-modal" class="bg-yellow-primary btn">Join Event</button>
                         @elseif($role === 'admin')
-                            <button type="button" class="btn btn-outline-dark w-100">View Attendees</button>
+                            <form action="{{ route('event.attendees', $event->id)}}" method="GET">
+                                <button type="submit" class="btn btn-outline-dark w-100">View Attendees</button>
+                            </form>
 
                             <form action="{{ route('events.edit', $event->id) }}" method="GET">
                                 <button type="submit" class="btn bg-yellow-primary w-100">Edit Event</button>
                             </form>
-                            {{-- {{ route('events.destroy', $event) }} --}}
-                            <form action="" method="POST">
+                            <form action="{{ route('events.destroy', $event->id)}}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn text-white bg-red-primary w-100">Delete Event</button>
@@ -84,5 +85,5 @@
         </div>
     </div>
 
-    
+
 @endsection

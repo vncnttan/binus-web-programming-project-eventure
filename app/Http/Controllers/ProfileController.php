@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Event;
+use App\Models\Attendee;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -13,7 +16,17 @@ class ProfileController extends Controller
     public function view()
     {
         $user = Auth::user();
-        return view('profile.view', compact('user'));
+        $events = collect();
+        if (Gate::allows('organizer-privilege', $user)) {
+            $events = Event::where('user_id', $user->id)->paginate(8);
+        }
+        if (Gate::allows('participant-privilege')) {
+            $attendeeEvents = Attendee::where('email', $user->email)->pluck('event_id');
+            $participantEvents = Event::whereIn('id', $attendeeEvents)->paginate(8);
+            $events = $events->merge($participantEvents);
+        }
+        $events->load('attendees')->loadCount('attendees');
+        return view('profile.view', compact('user', 'events'));
     }
 
     public function edit()

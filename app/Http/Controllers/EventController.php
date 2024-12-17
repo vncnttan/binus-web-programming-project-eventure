@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Attendee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
-    //
     public function index()
     {
         $trendingEvents = Event::withCount('attendees')
@@ -39,10 +39,35 @@ class EventController extends Controller
         return view('events.show', compact('event', 'role'));
     }
 
+    public function join(Request $request) {
+        $request->validate([
+            'attendees' => 'required|array|min:1',
+            'attendees.*.full_name' => 'required|string|max:255',
+            'attendees.*.email' => 'required|email|max:255',
+            'attendees.*.phone_number' => 'required|string|max:15',
+        ]);
+
+        try {
+            foreach ($request->attendees as $attendee) {
+                $new_attendee = new Attendee();
+                $new_attendee->event_id = $request->event_id;
+                $new_attendee->full_name = $attendee['full_name'];
+                $new_attendee->email = $attendee['email'];
+                $new_attendee->phone_number = $attendee['phone_number'];
+                $new_attendee->save();
+            }
+            return redirect()->route('index')
+                ->with('success', 'Join event success!');
+
+        } catch (Exception $e) {
+            return back()->with('error', 'Something went wrong while joining event. Please try again.')
+                ->withInput();
+        }
+    }
+
     public function find(Request $request)
     {
         $searchQuery = $request->input('query', '');
-
         $events = Event::withCount('attendees');
 
         if (!empty($searchQuery)) {
@@ -172,7 +197,12 @@ class EventController extends Controller
 
         $event->save();
 
-
         return redirect()->route('event.show', $event)->with('success', 'Event updated successfully.');
+    }
+
+    public function destroy(Event $event)
+    {
+        $event->delete();
+        return redirect()->route('index')->with('success', 'Event deleted successfully.');
     }
 }
