@@ -24,13 +24,16 @@
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="event_name">Event Name</label>
-                        <input type="text" id="event_name" name="name" class="form-control"
-                               value="" placeholder="Event name" required>
+                        <input type="text" id="event_name" name="name" class="form-control @error('name') is-invalid @enderror"
+                               value="{{ old('name') }}" placeholder="Event name" required>
                     </div>
+                    @error('name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
 
                     <div class="form-group mb-3">
                         <label for="category">Category</label>
-                        <select id="category" name="category_id" class="form-control" required>
+                        <select id="category" name="category_id" class="form-control" required class="@error('category_id') is-invalid @enderror" value="{{ old('category_id') }}">
                             @foreach($categories as $category)
                                 <option value="{{$category->id}}">
                                     {{ $category->name }}
@@ -38,37 +41,56 @@
                             @endforeach
                         </select>
                     </div>
+                    @error('category_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
 
                     <div class="form-group mb-3">
                         <label for="date">Date</label>
-                        <input type="date" id="date" name="date" class="form-control" value="" required>
+                        <input type="date" id="date" name="date" class="form-control @error('date') is-invalid @enderror"
+                               value="{{ old('date') }}" required>
                     </div>
+                    @error("date")
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
 
                     <div class="form-group mb-3">
                         <label for="start_time">Start Time</label>
-                        <input type="time" id="start_time" name="start_time" class="form-control"
-                               value="" required>
+                        <input type="time" id="start_time" name="start_time" class="form-control @error('start_time') is-invalid @enderror"
+                               value="{{ old('start_time') }}" required>
                     </div>
+                    @error("start_time")
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
 
                     <div class="form-group mb-3">
                         <label for="end_time">End Time</label>
-                        <input type="time" id="end_time" name="end_time" class="form-control"
+                        <input type="time" id="end_time" name="end_time" class="form-control @error('end_time') is-invalid @enderror"
                                value="" required>
                     </div>
+                    @error("end_time")
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="quota">Quota</label>
-                        <input type="number" id="quota" name="quota" class="form-control"
+                        <input type="number" id="quota" name="quota" class="form-control @error('quota') is-invalid @enderror"
                                value="" placeholder="Quota" required>
                     </div>
+                    @error("quota")
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
 
                     <div class="form-group mb-3">
                         <label for="max_per_account">Max Per Account</label>
-                        <input type="number" id="max_per_account" name="max_per_account" class="form-control"
+                        <input type="number" id="max_per_account" name="max_per_account" class="form-control @error('max_per_account') is-invalid @enderror"
                                value="" placeholder="Max. per account" required>
                     </div>
+                    @error("max_per_account")
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
 
                     <div class="form-group mb-3">
                         <label for="type">Type</label>
@@ -80,17 +102,24 @@
 
                     <div class="form-group mb-3">
                         <label for="location">Location</label>
-                        <input type="text" id="location" name="location" class="form-control"
+                        <input type="text" id="location" name="location" class="form-control @error('location') is-invalid @enderror"
                                value="" placeholder="Location" required>
                     </div>
+                    @error("location")
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
             </div>
 
             <div class="form-group mb-3">
                 <label for="description">Event Details</label>
-                <textarea id="description" name="description" class="form-control" rows="10" placeholder="Event details..."></textarea>
+                <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror"
+                          rows="10" placeholder="Event details..." > </textarea>
             </div>
+            @error("description")
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
 
             <div class="d-flex justify-content-end gap-2">
                 <a type="button" class="btn text-white bg-red-primary" href="{{route('index')}}">Discard Event</a>
@@ -111,6 +140,7 @@
             reader.readAsDataURL(file);
         }
     });
+
 </script>
 @endsection
 
