@@ -36,4 +36,5 @@ Route::middleware([Authenticate::class, EnsureRoleValid::class])->group(function
     Route::post('/events/store', [EventController::class, 'store'])->name('event.store');
     Route::post('/events/join', [EventController::class, 'join'])->name('event.join');
     Route::get('/events/{event}/attendees', [AttendeeController::class, 'index'])->name('event.attendees');
+    Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('events.destroy');
 });

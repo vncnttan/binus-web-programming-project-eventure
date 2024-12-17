@@ -44,7 +44,7 @@
                         <label for="endDate" class="form-label">End date</label>
                         <input type="date" id="endDate" name="end_date" class="form-control" value="{{ request('end_date') }}">
                     </div>
-                    <button type="submit" class="btn btn-primary">Apply</button>
+                    <button type="submit" class="btn btn-warning">Apply</button>
                 </form>
             </div>
         </div>

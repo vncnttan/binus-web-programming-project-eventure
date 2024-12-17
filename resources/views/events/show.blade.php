@@ -73,8 +73,7 @@
                             <form action="{{ route('events.edit', $event->id) }}" method="GET">
                                 <button type="submit" class="btn bg-yellow-primary w-100">Edit Event</button>
                             </form>
-                            {{-- {{ route('events.destroy', $event) }} --}}
-                            <form action="" method="POST">
+                            <form action="{{ route('events.destroy', $event->id)}}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn text-white bg-red-primary w-100">Delete Event</button>
