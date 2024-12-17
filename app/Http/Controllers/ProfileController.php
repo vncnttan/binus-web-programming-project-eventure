@@ -22,8 +22,8 @@ class ProfileController extends Controller
         }
         if (Gate::allows('participant-privilege')) {
             $attendeeEvents = Attendee::where('email', $user->email)->pluck('event_id');
-            $participantEvents = Event::whereIn('id', $attendeeEvents)->paginate(8);
-            $events = $events->merge($participantEvents);
+            $events = Event::whereIn('id', $attendeeEvents)->paginate(8);
+            // $events = $events->merge($participantEvents);
         }
         $events->load('attendees')->loadCount('attendees');
         return view('profile.view', compact('user', 'events'));
