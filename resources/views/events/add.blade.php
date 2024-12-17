@@ -60,7 +60,7 @@
                                value="{{ old('start_time') }}" required>
                     </div>
                     @error('start_time')
-                    
+
                     @enderror
 
                     <div class="form-group mb-3">
@@ -124,6 +124,7 @@
             reader.readAsDataURL(file);
         }
     });
+    
 </script>
 @endsection
 
