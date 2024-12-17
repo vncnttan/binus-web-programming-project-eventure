@@ -94,9 +94,9 @@
                     <input type="email" name="attendees[${idx}][email]" value="${email}" class="form-control" placeholder="Email" required ${disabled ? 'disabled' : ''}>
                     <input type="text" name="attendees[${idx}][phone_number]" value="${phone}" class="form-control" placeholder="Phone number" required ${disabled ? 'disabled' : ''}>
                     <button type="button" class="btn ${disabled ? '' : 'remove-attendee'}"><i class="fas fa-trash ${disabled ? 'text-muted' : 'text-black'}"></i></button>
-                    ${disabled ? `<input type="hidden" name="attendees[${idx}][name]" value="${name}">` : ''}
+                    ${disabled ? `<input type="hidden" name="attendees[${idx}][full_name]" value="${name}">` : ''}
                     ${disabled ? `<input type="hidden" name="attendees[${idx}][email]" value="${email}">` : ''}
-                    ${disabled ? `<input type="hidden" name="attendees[${idx}][phone]" value="${phone}">` : ''}
+                    ${disabled ? `<input type="hidden" name="attendees[${idx}][phone_number]" value="${phone}">` : ''}
                 </div>`;
         };
 

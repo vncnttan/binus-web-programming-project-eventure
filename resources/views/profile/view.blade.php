@@ -3,17 +3,17 @@
 @section('page-content')
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="mb-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-dark text-white text-center">
                     <h3 class="mb-0">Profile</h3>
                 </div>
-                <div class="card-body">
-                    <div class="text-center mb-4">
+                <div class="card-body d-flex gap-4">
+                    <div style="width: 20%">
                         @if($user->image)
-                        <img src="{{ asset($user->image) }}" alt="Profile Picture" class="rounded-circle img-thumbnail" style="width: 120px; height: 120px;">
+                        <img src="{{ asset($user->image) }}" alt="Profile Picture" class="rounded-circle img-thumbnail" style="width: 100%">
                         @else
-                        <img src="{{ asset($user->image) }}" alt="Profile Picture" class="rounded-circle img-thumbnail" style="width: 120px; height: 120px;">
+                        <img src="{{ asset($user->image) }}" alt="Profile Picture" class="rounded-circle img-thumbnail" style="width: 100%">
                         @endif
                     </div>
                     <table class="table table-bordered">
@@ -47,6 +47,24 @@
                     </a>
                 </div>
             </div>
+        </div>
+
+        <div class="my-5">
+            @can('organizer-privilege')
+                <h3>Events Organized</h3>
+            @endcan
+            @can('participant-privilege')
+                <h3>Events Joined</h3>
+            @endcan
+
+            @if ($events)
+                <div class="row gap-4 my-3">
+                    @foreach($events as $e)
+                        <x-event-card :event="$e"/>
+                    @endforeach
+                </div>
+            @endif
+            {{$events->links()}}
         </div>
     </div>
 </div>

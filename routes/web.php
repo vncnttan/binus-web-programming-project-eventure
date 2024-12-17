@@ -3,6 +3,7 @@
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AttendeeController;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\EnsureRoleNotFilled;
 use App\Http\Middleware\EnsureRoleValid;
@@ -34,5 +35,5 @@ Route::middleware([Authenticate::class, EnsureRoleValid::class])->group(function
     Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
     Route::post('/events/store', [EventController::class, 'store'])->name('event.store');
     Route::post('/events/join', [EventController::class, 'join'])->name('event.join');
+    Route::get('/events/{event}/attendees', [AttendeeController::class, 'index'])->name('event.attendees');
 });
-
