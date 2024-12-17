@@ -24,13 +24,16 @@
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="event_name">Event Name</label>
-                        <input type="text" id="event_name" name="name" class="form-control"
-                               value="" placeholder="Event name" required>
+                        <input type="text" id="event_name" name="name" class="form-control @error('name') is-invalid @enderror"
+                               value="{{ old('name') }}" placeholder="Event name" required>
                     </div>
+                    @error('name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
 
                     <div class="form-group mb-3">
                         <label for="category">Category</label>
-                        <select id="category" name="category_id" class="form-control" required>
+                        <select id="category" name="category_id" class="form-control" required class="@error('category_id') is-invalid @enderror" value="{{ old('category_id') }}">
                             @foreach($categories as $category)
                                 <option value="{{$category->id}}">
                                     {{ $category->name }}
@@ -38,17 +41,27 @@
                             @endforeach
                         </select>
                     </div>
+                    @error('category_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
 
                     <div class="form-group mb-3">
                         <label for="date">Date</label>
-                        <input type="date" id="date" name="date" class="form-control" value="" required>
+                        <input type="date" id="date" name="date" class="form-control @error('date') is-invalid @enderror"
+                               value="{{ old('date') }}" required>
                     </div>
+                    @error('date')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
 
                     <div class="form-group mb-3">
                         <label for="start_time">Start Time</label>
                         <input type="time" id="start_time" name="start_time" class="form-control"
-                               value="" required>
+                               value="{{ old('start_time') }}" required>
                     </div>
+                    @error('start_time')
+                    
+                    @enderror
 
                     <div class="form-group mb-3">
                         <label for="end_time">End Time</label>
@@ -89,7 +102,7 @@
 
             <div class="form-group mb-3">
                 <label for="description">Event Details</label>
-                <textarea id="description" name="description" class="form-control" rows="10" placeholder="Event details..."></textarea>
+                <textarea id="description" name="description" class="form-control" rows="10" placeholder="Event details...">
             </div>
 
             <div class="d-flex justify-content-end gap-2">
